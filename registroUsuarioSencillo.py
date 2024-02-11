@@ -18,12 +18,9 @@ while not salir:
 
     print("\n--------- REGISTRO DE USUARIOS ---------\n")
     
-    print("Opciones disponibles \n\n\
-    1. Ingresar usuarios        \n\
-    2. Ver usuarios registrados \n\
-    3. Editar un usuario        \n\
-    4. Buscar usuario           \n\
-    5. Salir                    \n")
+    for i, op in list(opciones.items()):
+        print("\t" + str(i) + ". " + op)
+    print()
     
     #Verificar la opcion ingresada del usuario
     while True:
