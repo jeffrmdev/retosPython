@@ -171,7 +171,7 @@ while not salir:
                 continue
                 
             for i in range(0, n): 
-                print(f"Ingrese el {i+1}° usuario: ")
+                print(f"Ingrese el {i+1}° usuario de {n}: ")
                 new_user(id)
                 print()
                 id += 1
