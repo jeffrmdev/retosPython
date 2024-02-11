@@ -9,10 +9,74 @@ opciones = {
     6: "Salir del programa",
 }
 
-print("Hola")
 
 usuarios_creados = [['0', 'Jeff', 'Rios', '1234567890', 'jeff@email.com']]
 salir = False
+
+
+def new_user():
+    while True:
+        try: 
+            n = int((input("Ingrese cuantos usuarios quiere registrar: ")))
+            break
+        except ValueError:
+            print("Ingresa solo numeros")
+                
+                
+    for i in range(1, n+1):  
+        
+        usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
+        usuario['id'] = id
+        #Imprimir el numero de usuario en pantall, solo si es mayor a uno
+        print(f"\nIngrese los datos de el {i}° usuario\n")
+        #Ingreso nombre
+        #no saldrá del bucle hasta que ingrese los caracteres solicitados
+        first_name = input("Ingrese su nombre: ")
+        if len(first_name) >= 5 and len(first_name) < 50 : 
+            usuario['name']=first_name
+        else:   
+            while len(first_name) < 5 or len(first_name) > 50:
+                first_name = input("Ingrese un nombre valido (min 5 - max 50 caracteres): ")
+                if len(first_name) > 5 and len(first_name) < 50: 
+                    usuario['name']=first_name
+        #Ingreso de apellidos    
+        last_name = input("Ingrese su apellido: ")
+        if len(last_name) >= 5 and len(last_name) < 50:
+            usuario['lastname']=last_name     
+        else:   
+            while len(last_name) < 5 or len(last_name) > 50:
+                last_name = input("Ingrese un apellido valido (min 5 - max 50 caracteres): ") 
+                if len(last_name) >= 5 and len(last_name) < 50:
+                    usuario['lastname']=last_name
+        #Ingreso de telefonos    
+        telefono = input("Ingrese su número de telefono: ")
+        if len(telefono) == 10:  
+            usuario['phone']=telefono
+        else:    
+            while len(telefono) != 10:
+                telefono = input("Ingrese un telefono valido (10 dígitos): ")
+                if len(telefono) == 10:  
+                    usuario['phone']=telefono
+        # Ingreso de correos   
+        email = input("Ingrese su correo electrónico: ")
+        if len(email) >= 5 or len(email) < 50:
+            usuario['email']=email
+        else:   
+            while len(email) < 5 or len(email) > 50:
+                email = input("Ingrese un correo valido (min 5 - max 50 caracteres): ")
+                if len(email) >= 5 or len(email) < 50:
+                    usuario['email']=email
+                    
+        usuarios_creados.append(usuario.values())
+        id += 1 
+              
+        print("Se ha creado el siguiente usuario: \n")
+        for val in usuario.keys():
+            print(str(val).upper(), end="     \t")
+        print("")  
+        for value in usuarios_creados[-1]:
+            print(value, end="     \t")
+        print("")
 
 while not salir:
 
@@ -36,75 +100,7 @@ while not salir:
     match opcion:
         case 1:
             
-            while True:
-                try: 
-                    n = int((input("Ingrese cuantos usuarios quiere registrar: ")))
-                    break
-                except ValueError:
-                    print("Ingresa solo numeros")
-                
-                
-            for i in range(1, n+1):  
-                
-                usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
-                usuario['id'] = id
-    
-                #Imprimir el numero de usuario en pantall, solo si es mayor a uno
-                print(f"\nIngrese los datos de el {i}° usuario\n")
-    
-                #Ingreso nombre
-                #no saldrá del bucle hasta que ingrese los caracteres solicitados
-                first_name = input("Ingrese su nombre: ")
-                if len(first_name) >= 5 and len(first_name) < 50 : 
-                    usuario['name']=first_name
-                else:   
-                    while len(first_name) < 5 or len(first_name) > 50:
-                        first_name = input("Ingrese un nombre valido (min 5 - max 50 caracteres): ")
-                        if len(first_name) > 5 and len(first_name) < 50: 
-                            usuario['name']=first_name
-    
-                #Ingreso de apellidos    
-                last_name = input("Ingrese su apellido: ")
-                if len(last_name) >= 5 and len(last_name) < 50:
-                    usuario['lastname']=last_name     
-                else:   
-                    while len(last_name) < 5 or len(last_name) > 50:
-                        last_name = input("Ingrese un apellido valido (min 5 - max 50 caracteres): ") 
-                        if len(last_name) >= 5 and len(last_name) < 50:
-                            usuario['lastname']=last_name
-    
-    
-                #Ingreso de telefonos    
-                telefono = input("Ingrese su número de telefono: ")
-                if len(telefono) == 10:  
-                    usuario['phone']=telefono
-                else:    
-                    while len(telefono) != 10:
-                        telefono = input("Ingrese un telefono valido (10 dígitos): ")
-                        if len(telefono) == 10:  
-                            usuario['phone']=telefono
-    
-                # Ingreso de correos   
-                email = input("Ingrese su correo electrónico: ")
-                if len(email) >= 5 or len(email) < 50:
-                    usuario['email']=email
-    
-                else:   
-                    while len(email) < 5 or len(email) > 50:
-                        email = input("Ingrese un correo valido (min 5 - max 50 caracteres): ")
-                        if len(email) >= 5 or len(email) < 50:
-                            usuario['email']=email
-                            
-                usuarios_creados.append(usuario.values())
-                id += 1 
-                      
-                print("Se ha creado el siguiente usuario: \n")
-                for val in usuario.keys():
-                    print(str(val).upper(), end="     \t")
-                print("")  
-                for value in usuarios_creados[-1]:
-                    print(value, end="     \t")
-                print("")
+            
                   
         case 2:
             print("\n------- Ver Usuarios Registrados -------\n")
