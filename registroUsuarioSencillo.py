@@ -76,6 +76,7 @@ def list_user():
         for value in usuarios_creados[i]:
             print(value, end="     \t")
         print("")
+    print("\n")
             
 def edit_user(editar_id):
     usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
@@ -158,8 +159,23 @@ while not salir:
     match opcion:
         case 1:
             print("\n------- Ingreso de usuarios -------\n")
-            new_user(id)
-            id += 1
+            
+            while True:
+                try:
+                    n = int(input("Ingresa cuantos usuarios quieres registrar: "))
+                    break 
+                except ValueError:
+                    print("Ingresa solo números")
+            
+            if n <= 0:
+                continue
+                
+            for i in range(0, n): 
+                print(f"Ingrese el {i+1}° usuario: ")
+                new_user(id)
+                print()
+                id += 1
+            
                          
         case 2:
             print("\n------- Ver Usuarios Registrados -------\n")
