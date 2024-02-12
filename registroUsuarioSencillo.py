@@ -9,12 +9,11 @@ opciones = {
     6: "Salir del programa",
 }
 
-
-usuarios_creados = [['0', 'Jeff', 'Rios', '1234567890', 'jeff@email.com']]
+usuarios_creados = {0:{'id':'0', 'name':'Jeff', 'lastname':'Rios', 'phone':'1234567890', 'email':'jeff@email.com'}}
 salir = False
 
 #LISTA DE ACCIONES
-def new_user(id):           
+def new_user(id, usuarios_creados_dic):           
     usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
     usuario['id'] = id
     #Ingreso nombre
@@ -55,41 +54,49 @@ def new_user(id):
             if len(email) >= 5 or len(email) < 50:
                 usuario['email']=email
                 
-    usuarios_creados.append(usuario.values())
-    id += 1 
-          
+    usuarios_creados_dic[id] = usuario
     print("Se ha creado el siguiente usuario: \n")
+    list_user(id)
+    id += 1   
+    
+    
+    return id
+        
+def list_all_users():
+    for val in usuario.keys():
+        print(str(val).upper(), end="     \t")
+    print("")
+    
+    if len(usuarios_creados) == 0:
+        print("No existen usuarios registrados\n")
+        return
+    
+    for i, *_ in tuple(usuarios_creados.items()):
+        for value in list(usuarios_creados[i].values()):
+            print(value, end="     \t")
+        print()
+    
+    print("\n")
+ 
+def list_user(id):
+    if  id not in usuarios_creados:
+        print("\nNo se ha encontrado el usuario\n")
+        return False
+    
     for val in usuario.keys():
         print(str(val).upper(), end="     \t")
     print("")  
-    for value in usuarios_creados[-1]:
+    for value in list(usuarios_creados[id].values()):
         print(value, end="     \t")
-    print("")
-    return id
-        
-def list_user():
-    for val in usuario.keys():
-        print(str(val).upper(), end="     \t")
-    print("")
-    
-    for i in range(0,len(usuarios_creados)):   
-        for value in usuarios_creados[i]:
-            print(value, end="     \t")
-        print("")
-    print("\n")
-            
-def edit_user(editar_id):
+    print("")           
+
+def edit_user(editar_id, usuarios_creados):
     usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
     if editar_id >= len(usuarios_creados):
-        print("El usuario no se ha encontrado")
+        print("\nEl usuario no se ha encontrado\n")
         return
     
-    for val in usuario.keys():
-        print(str(val).upper(), end="     \t")
-    print("")
-    for value in usuarios_creados[editar_id]:
-        print(value, end="     \t")
-    print("\n")
+    list_user(editar_id)
     usuario['id'] = editar_id
     
     first_name = input("Ingrese el nombre: ")
@@ -127,15 +134,37 @@ def edit_user(editar_id):
             email = input("Ingrese un correo valido (min 5 - max 50 caracteres): ")
             if len(email) >= 5 or len(email) < 50:
                 usuario['email']=email
-    usuarios_creados[editar_id] = usuario.values()
+                
+    usuarios_creados[editar_id] = usuario
     print("El usuario se ha editado con exito\n")
-    for val in usuario.keys():
-        print(str(val).upper(), end="     \t")
-    print("")
-    for value in usuarios_creados[editar_id]:
-        print(value, end="     \t")
-    print("\n")
+    list_user(editar_id)
+    
+def delete_user(id):
+    if id >= len(usuarios_creados):
+        print("\nEl usuario no se ha encontrado\n")
+        return
+    confirm = input("\n¿Desea eliminar el usuario? Si (yes/y)     No (Enter): ")   
+    if 'y' in confirm:
+        usuarios_creados.pop(id)
+        print("\nSe ha borrado el usuario\n")
 
+def validar_input(mensaje):
+    while True:
+        try:
+            entrada_usuario = int(input(mensaje + ": "))
+            break 
+        except ValueError:
+            print("Ingresa solo números")
+    return entrada_usuario
+
+def validar_input_error(mensaje, error):
+    while True:
+        try:
+            entrada_usuario = int(input(mensaje + ": "))
+            break 
+        except ValueError:
+            print(error)
+    return entrada_usuario
 
 while not salir:
 
@@ -146,78 +175,57 @@ while not salir:
     print()
     
     #Verificar la opcion ingresada del usuario
-    while True:
-        try:
-            opcion = int(input("Ingrese la opción deseada: "))
-            while (opcion > 5 or opcion <= 0):
-                print("Ingrese una opción valida")
-                opcion = int(input("Ingrese la opción deseada: "))  
-            break   
-        except ValueError:
-            print("¡Solo se permite ingresar números!")
+    
+    opcion = validar_input("Ingrese la opción deseada")
+    while (opcion > 6 or opcion <= 0):
+        opcion = validar_input("Ingrese la opción deseada")
+        if opcion > 6 or opcion <= 0:
+            print("¡Ingresa una opción válida!")
         
     match opcion:
         case 1:
             print("\n------- Ingreso de usuarios -------\n")
-            
-            while True:
-                try:
-                    n = int(input("Ingresa cuantos usuarios quieres registrar: "))
-                    break 
-                except ValueError:
-                    print("Ingresa solo números")
+            n = validar_input("Ingrese el número de usuarios a registrar")
             
             if n <= 0:
                 continue
                 
             for i in range(0, n): 
                 print(f"Ingrese el {i+1}° usuario de {n}: ")
-                new_user(id)
+                new_user(id, usuarios_creados)
                 print()
                 id += 1
-            
-                         
+                        
         case 2:
             print("\n------- Ver Usuarios Registrados -------\n")
-            list_user()
+            list_all_users()
             input("Presione cualquier tecla para continuar...")
                 
         case 3:
             print("\n------- Editar un usuario -------\n")
-            while True:
-                try: 
-                    editar_id = int(input("Ingrese el ID del usuario que va a editar: "))
-                    break
-                except ValueError:
-                    print("El valor ID debe ser numerico")
-                    editar_id = int(input("Ingrese el ID del usuario que va a editar: "))       
-            edit_user(editar_id)        
+            editar_id = validar_input_error("Ingrese el ID del usuario que va a editar","El valor del ID debe ser numérico")           
+            edit_user(editar_id, usuarios_creados)        
             input("Pulse cualquier tecla para continuar...")
              
         case 4:
             print("------- Busqueda de Usuario -------")
-            while True:
-                try:
-                    editar_id = int(input("Ingrese el ID del usuario que busca: "))
-                    break
-                except ValueError:
-                    print("El valor del ID debe ser numérico: ")
-                    editar_id = int(input("Ingrese el ID del usuario que busca: "))
-                
-            if editar_id >= len(usuarios_creados):
+            edit_id = validar_input_error("Ingrese el ID del usuario que busca", "El valor del ID debe ser numérico")  
+            if edit_id not in usuarios_creados:
                 print("\nNo se ha encontrado el usuario con ese ID")
-                break
+                continue
             
-            print("")
-            for val in usuario.keys():
-                print(str(val).upper(), end="     \t")
-            print("")
-            for value in usuarios_creados[editar_id]:
-                    print(value, end="     \t")
-            print("\n")
+            list_user(edit_id)
             input("Presione cualquier tecla para continuar...")
             
         case 5:
-            if(opcion == 5):
-                salir = True
+            print("------- Eliminar usuario -------")
+            delete_id = validar_input_error("Ingrese el ID del usuario que desea eliminar", "El valor del ID debe ser numérico")       
+            list_user(delete_id)
+            delete_user(delete_id)
+                
+            input("Pulse cualquier tecla para continuar...")
+            
+        case 6:
+            input("Presione cualquier tecla para continuar...")
+            salir = True
             
