@@ -61,7 +61,8 @@ def new_user(id, usuarios_creados_dic):
     
     
     return id
-        
+ 
+#Muestra a todos los usuarios        
 def list_all_users():
     for val in usuario.keys():
         print(str(val).upper(), end="     \t")
@@ -78,6 +79,7 @@ def list_all_users():
     
     print("\n")
  
+#Muestra un usuario si existe su ID
 def list_user(id):
     if  id not in usuarios_creados:
         print("\nNo se ha encontrado el usuario\n")
@@ -90,6 +92,7 @@ def list_user(id):
         print(value, end="     \t")
     print("")           
 
+#Editar un usuario
 def edit_user(editar_id, usuarios_creados):
     usuario = {'id': '','name': '','lastname': '','phone': '','email': '' }
     if editar_id >= len(usuarios_creados):
@@ -138,16 +141,20 @@ def edit_user(editar_id, usuarios_creados):
     usuarios_creados[editar_id] = usuario
     print("El usuario se ha editado con exito\n")
     list_user(editar_id)
-    
+ 
+#Elimina el usuario si existe un ID   
 def delete_user(id):
-    if id >= len(usuarios_creados):
+    if id not in usuarios_creados: #Verifica si el usuario
         print("\nEl usuario no se ha encontrado\n")
-        return
+        return #retorna a las funciones principales
     confirm = input("\n¿Desea eliminar el usuario? Si (yes/y)     No (Enter): ")   
+    
+    #Si el usuario elige 'y' se elimina el usuario
     if 'y' in confirm:
         usuarios_creados.pop(id)
         print("\nSe ha borrado el usuario\n")
 
+#Valida las entradas del usuario
 def validar_input(mensaje):
     while True:
         try:
@@ -156,7 +163,6 @@ def validar_input(mensaje):
         except ValueError:
             print("Ingresa solo números")
     return entrada_usuario
-
 def validar_input_error(mensaje, error):
     while True:
         try:
@@ -167,17 +173,16 @@ def validar_input_error(mensaje, error):
     return entrada_usuario
 
 while not salir:
-
     print("\n--------- REGISTRO DE USUARIOS ---------\n")
     
+    #Imprimir opciones en pantalla
     for i, op in list(opciones.items()):
         print("\t" + str(i) + ". " + op)
     print()
     
     #Verificar la opcion ingresada del usuario
-    
     opcion = validar_input("Ingrese la opción deseada")
-    while (opcion > 6 or opcion <= 0):
+    while (opcion > 6 or opcion <= 0): #Se repite hasta que escoja una opción válida
         opcion = validar_input("Ingrese la opción deseada")
         if opcion > 6 or opcion <= 0:
             print("¡Ingresa una opción válida!")
